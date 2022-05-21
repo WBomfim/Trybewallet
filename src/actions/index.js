@@ -1,4 +1,4 @@
-import GET_EMAIL from '../reducers/user';
+import { GET_EMAIL } from '../reducers/user';
 import { WALLET_INITIAL } from '../reducers/wallet';
 
 export const getUser = (user) => ({
