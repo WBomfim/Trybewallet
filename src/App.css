@@ -1,8 +1,8 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   -moz-osx-font-smoothing: grayscale;
-  margin: 0;
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
 
 .App {
