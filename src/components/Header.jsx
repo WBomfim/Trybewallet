@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchAPI } from '../actions';
+import { fetchCurrencyAbbreviations } from '../actions';
 import './Header.css';
 
 class Reader extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchAPI());
+    dispatch(fetchCurrencyAbbreviations());
   }
 
   render() {

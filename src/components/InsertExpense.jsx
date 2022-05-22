@@ -61,7 +61,7 @@ class InsertExpense extends Component {
           type="submit"
           data-testid="submit-button"
         >
-          Adicionar
+          Adicionar despesa
         </button>
       </form>
     );
