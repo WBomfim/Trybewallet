@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import './InsertExpense.css';
 
 class InsertExpense extends Component {
   render() {
     const { currencies } = this.props;
     return (
-      <form>
+      <form className="expenseInsert">
         <label htmlFor="expense_value">
           Valor:
           <input

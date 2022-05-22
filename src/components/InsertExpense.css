@@ -1,0 +1,13 @@
+.expenseInsert {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.expenseInsert input {
+  margin-left: 5px;
+}
+
+.expenseInsert select {
+  margin-left: 5px;
+}
