@@ -9,9 +9,9 @@ class Reader extends Component {
     return (
       <header>
         <h1>TrybeWallet</h1>
-        <h2 data-testid="email-field">{email}</h2>
-        <p data-testid="total-field">{ 0 }</p>
-        <span data-testid="header-currency-field">BRL</span>
+        <h2 data-testid="email-field">Email: {email}</h2>
+        <p data-testid="total-field">Despesa Total: { 0 }</p>
+        <span data-testid="header-currency-field">Moeda: BRL</span>
       </header>
     );
   }
