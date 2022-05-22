@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchAPI } from '../actions';
 import './Header.css';
 
 class Reader extends Component {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchAPI());
+  }
+
   render() {
     const { email } = this.props;
     return (
@@ -35,6 +41,7 @@ const mapStateToProps = (state) => ({
 
 Reader.propTypes = {
   email: propTypes.string.isRequired,
+  dispatch: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, null)(Reader);

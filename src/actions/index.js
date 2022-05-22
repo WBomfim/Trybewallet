@@ -1,12 +1,26 @@
 import { GET_EMAIL } from '../reducers/user';
-import { WALLET_INITIAL } from '../reducers/wallet';
+import { GET_CURRENCY_ABBREVIATIONS } from '../reducers/wallet';
 
 export const getUser = (user) => ({
   type: GET_EMAIL,
   user,
 });
 
-export const updateWallet = (wallert) => ({
-  type: WALLET_INITIAL,
-  wallert,
+export const getCurrencyAbbreviations = (data) => ({
+  type: GET_CURRENCY_ABBREVIATIONS,
+  data,
 });
+
+export function fetchAPI() {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const data = await response.json();
+      const filterCurrencyAbbreviations = Object.keys(data)
+        .filter((abbreviation) => abbreviation !== 'USDT');
+      dispatch(getCurrencyAbbreviations(filterCurrencyAbbreviations));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
