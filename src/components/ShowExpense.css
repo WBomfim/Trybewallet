@@ -2,3 +2,9 @@ th {
   padding: 20px 10px 10px;
   width: 200px;
 }
+
+td {
+  text-align: center;
+  padding: 10px 10px 10px;
+  width: 200px;
+}
