@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchExchangeRate } from '../actions';
+import { fetchExchangeRate, updateExpense } from '../actions';
 import './InsertExpense.css';
 
 class InsertExpense extends Component {
@@ -15,6 +15,13 @@ class InsertExpense extends Component {
       tag: 'Alimentação',
       description: '',
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { isEditing } = this.props;
+    if (isEditing && prevProps.isEditing !== isEditing) {
+      this.loadingEditiExpense();
+    }
   }
 
   hendleChange = ({ target: { name, value } }) => {
@@ -42,9 +49,39 @@ class InsertExpense extends Component {
     });
   };
 
+  loadingEditiExpense = () => {
+    const { expenseEditing } = this.props;
+    this.setState({
+      value: expenseEditing.value,
+      currency: expenseEditing.currency,
+      method: expenseEditing.method,
+      tag: expenseEditing.tag,
+      description: expenseEditing.description,
+    });
+  };
+
+  editingExpense = () => {
+    const { value, currency, method, tag, description } = this.state;
+    const { expenseEditing, dispatch } = this.props;
+    const expense = {
+      id: expenseEditing.id,
+      value,
+      currency,
+      method,
+      tag,
+      description,
+      exchangeRates: expenseEditing.exchangeRates,
+    };
+    dispatch(updateExpense(expense));
+    this.setState({
+      value: '',
+      description: '',
+    });
+  };
+
   render() {
     const { value, currency, method, tag, description } = this.state;
-    const { currencies } = this.props;
+    const { currencies, isEditing } = this.props;
     return (
       <form className="expenseInsert">
         <label htmlFor="expense_value">
@@ -66,6 +103,7 @@ class InsertExpense extends Component {
             value={ currency }
             onChange={ this.hendleChange }
             id="expense_coin"
+            data-testid="currency-input"
           >
             { currencies.map((coin) => (
               <option key={ coin + 1 } value={ coin }>{coin}</option>
@@ -118,11 +156,11 @@ class InsertExpense extends Component {
         </label>
 
         <button
-          onClick={ this.addExpense }
+          onClick={ isEditing ? this.editingExpense : this.addExpense }
           type="button"
           data-testid="submit-button"
         >
-          Adicionar despesa
+          {isEditing ? 'Editar despesa' : 'Adicionar despesa'}
         </button>
       </form>
     );
@@ -131,11 +169,29 @@ class InsertExpense extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
+  isEditing: state.wallet.isEditing,
+  expenseEditing: state.wallet.expenseEditing,
 });
 
 InsertExpense.propTypes = {
   currencies: propTypes.arrayOf(propTypes.string).isRequired,
   dispatch: propTypes.func.isRequired,
+  isEditing: propTypes.bool,
+  expenseEditing: propTypes.shape({
+    id: propTypes.number,
+    value: propTypes.string,
+    currency: propTypes.string,
+    method: propTypes.string,
+    tag: propTypes.string,
+    description: propTypes.string,
+    exchangeRates: propTypes.objectOf(propTypes.object),
+  }),
+};
+
+InsertExpense.defaultProps = {
+  isEditing: false,
+  expenseEditing: {},
 };
 
 export default connect(mapStateToProps, null)(InsertExpense);

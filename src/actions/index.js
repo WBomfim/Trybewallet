@@ -2,7 +2,10 @@ import { GET_EMAIL } from '../reducers/user';
 import {
   GET_CURRENCY_ABBREVIATIONS,
   GET_EXPENSES,
-  DELETE_EXPENSE } from '../reducers/wallet';
+  DELETE_EXPENSE,
+  EDITING_EXPENSE,
+  UPDATE_EXPENSE,
+} from '../reducers/wallet';
 
 export const getUser = (user) => ({
   type: GET_EMAIL,
@@ -22,6 +25,16 @@ export const addExpense = (data) => ({
 export const deleteExpense = (id) => ({
   type: DELETE_EXPENSE,
   id,
+});
+
+export const editExpense = (id) => ({
+  type: EDITING_EXPENSE,
+  id,
+});
+
+export const updateExpense = (data) => ({
+  type: UPDATE_EXPENSE,
+  data,
 });
 
 export function fetchCurrencyAbbreviations() {
