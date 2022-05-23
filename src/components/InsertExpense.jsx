@@ -8,6 +8,7 @@ class InsertExpense extends Component {
   constructor() {
     super();
     this.state = {
+      indexId: 0,
       value: '',
       currency: '',
       method: '',
@@ -23,10 +24,10 @@ class InsertExpense extends Component {
   }
 
   addExpense = () => {
-    const { value, currency, method, tag, description } = this.state;
-    const { expenses, dispatch } = this.props;
+    const { indexId, value, currency, method, tag, description } = this.state;
+    const { dispatch } = this.props;
     const expense = {
-      id: expenses.length === undefined ? 0 : expenses.length,
+      id: indexId,
       value,
       currency,
       method,
@@ -35,6 +36,7 @@ class InsertExpense extends Component {
     };
     dispatch(fetchExchangeRate(expense));
     this.setState({
+      indexId: indexId + 1,
       value: '',
       description: '',
     });
@@ -129,12 +131,10 @@ class InsertExpense extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
-  expenses: state.wallet.expenses,
 });
 
 InsertExpense.propTypes = {
   currencies: propTypes.arrayOf(propTypes.string).isRequired,
-  expenses: propTypes.arrayOf(propTypes.object).isRequired,
   dispatch: propTypes.func.isRequired,
 };
 

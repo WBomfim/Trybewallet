@@ -52,6 +52,7 @@ class ShowExpense extends Component {
                   </button>
                   <button
                     type="button"
+                    data-testid="delete-btn"
                   >
                     Excluir
                   </button>
