@@ -7,9 +7,9 @@ import {
   UPDATE_EXPENSE,
 } from '../reducers/wallet';
 
-export const getUser = (user) => ({
+export const getUser = (email) => ({
   type: GET_EMAIL,
-  user,
+  email,
 });
 
 export const getCurrencyAbbreviations = (data) => ({

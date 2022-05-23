@@ -8,7 +8,7 @@ class InsertExpense extends Component {
   constructor() {
     super();
     this.state = {
-      indexId: 0,
+      id: 0,
       value: '',
       currency: 'USD',
       method: 'Dinheiro',
@@ -31,10 +31,10 @@ class InsertExpense extends Component {
   }
 
   addExpense = () => {
-    const { indexId, value, currency, method, tag, description } = this.state;
+    const { id, value, currency, method, tag, description } = this.state;
     const { dispatch } = this.props;
     const expense = {
-      id: indexId,
+      id,
       value,
       currency,
       method,
@@ -43,7 +43,7 @@ class InsertExpense extends Component {
     };
     dispatch(fetchExchangeRate(expense));
     this.setState({
-      indexId: indexId + 1,
+      id: id + 1,
       value: '',
       description: '',
     });
@@ -194,4 +194,4 @@ InsertExpense.defaultProps = {
   expenseEditing: {},
 };
 
-export default connect(mapStateToProps, null)(InsertExpense);
+export default connect(mapStateToProps)(InsertExpense);

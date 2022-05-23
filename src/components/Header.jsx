@@ -62,4 +62,4 @@ Reader.propTypes = {
   dispatch: propTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Reader);
+export default connect(mapStateToProps)(Reader);
