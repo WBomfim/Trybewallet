@@ -1,10 +1,47 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fetchExchangeRate } from '../actions';
 import './InsertExpense.css';
 
 class InsertExpense extends Component {
+  constructor() {
+    super();
+    this.state = {
+      value: '',
+      currency: '',
+      method: '',
+      tag: '',
+      description: '',
+    };
+  }
+
+  hendleChange = ({ target: { name, value } }) => {
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  addExpense = () => {
+    const { value, currency, method, tag, description } = this.state;
+    const { expenses, dispatch } = this.props;
+    const expense = {
+      id: expenses.length === undefined ? 0 : expenses.length,
+      value,
+      currency,
+      method,
+      tag,
+      description,
+    };
+    dispatch(fetchExchangeRate(expense));
+    this.setState({
+      value: '',
+      description: '',
+    });
+  };
+
   render() {
+    const { value, currency, method, tag, description } = this.state;
     const { currencies } = this.props;
     return (
       <form className="expenseInsert">
@@ -12,6 +49,8 @@ class InsertExpense extends Component {
           Valor:
           <input
             name="value"
+            value={ value }
+            onChange={ this.hendleChange }
             id="expense_value"
             type="text"
             data-testid="value-input"
@@ -20,30 +59,47 @@ class InsertExpense extends Component {
 
         <label htmlFor="expense_coin">
           Moeda:
-          <select name="coin" id="expense_coin">
-            { currencies.map((currency) => (
-              <option key={ currency + 1 } value={ currency }>{currency}</option>
+          <select
+            name="currency"
+            value={ currency }
+            onChange={ this.hendleChange }
+            id="expense_coin"
+          >
+            { currencies.map((coin) => (
+              <option key={ coin + 1 } value={ coin }>{coin}</option>
             ))}
           </select>
         </label>
 
         <label htmlFor="expense_pay_method">
           Método de Pagamento:
-          <select name="payMethod" id="expense_pay_method" data-testid="method-input">
-            <option value="dinheiro">Dinheiro</option>
-            <option value="cartaoCredito">Cartão de crédito</option>
-            <option value="cartaoDebito">Cartão de débito</option>
+          <select
+            name="method"
+            value={ method }
+            onChange={ this.hendleChange }
+            id="expense_pay_method"
+            data-testid="method-input"
+          >
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
           </select>
         </label>
 
         <label htmlFor="expense_catogory">
           Catogoria:
-          <select name="category" id="expense_catogory" data-testid="tag-input">
-            <option value="alimentacao">Alimentação</option>
-            <option value="lazer">Lazer</option>
-            <option value="trabalho">Trabalho</option>
-            <option value="transporte">Transporte</option>
-            <option value="saude">Saúde</option>
+          <select
+            name="tag"
+            value={ tag }
+            onChange={ this.hendleChange }
+            id="expense_catogory"
+            data-testid="tag-input"
+          >
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
           </select>
         </label>
 
@@ -51,6 +107,8 @@ class InsertExpense extends Component {
           Descrição:
           <input
             name="description"
+            value={ description }
+            onChange={ this.hendleChange }
             id="expense_description"
             type="text"
             data-testid="description-input"
@@ -58,7 +116,8 @@ class InsertExpense extends Component {
         </label>
 
         <button
-          type="submit"
+          onClick={ this.addExpense }
+          type="button"
           data-testid="submit-button"
         >
           Adicionar despesa
@@ -70,10 +129,13 @@ class InsertExpense extends Component {
 
 const mapStateToProps = (state) => ({
   currencies: state.wallet.currencies,
+  expenses: state.wallet.expenses,
 });
 
 InsertExpense.propTypes = {
   currencies: propTypes.arrayOf(propTypes.string).isRequired,
+  expenses: propTypes.arrayOf(propTypes.object).isRequired,
+  dispatch: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, null)(InsertExpense);

@@ -3,3 +3,8 @@ header {
   display: flex;
   justify-content: space-around;
 }
+
+header div {
+  display: flex;
+  gap: 5px;
+}

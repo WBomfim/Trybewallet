@@ -10,6 +10,21 @@ class Reader extends Component {
     dispatch(fetchCurrencyAbbreviations());
   }
 
+  convertValue = (expense) => {
+    const { value, currency, exchangeRates } = expense;
+    const valueExchange = exchangeRates[currency].ask;
+    return Number(value * valueExchange);
+  }
+
+  sumTotal = () => {
+    const { expenses } = this.props;
+    const total = expenses.reduce((acc, expense) => {
+      const valueExpense = this.convertValue(expense);
+      return acc + valueExpense;
+    }, 0);
+    return total.toFixed(2);
+  };
+
   render() {
     const { email } = this.props;
     return (
@@ -22,13 +37,14 @@ class Reader extends Component {
           {' '}
           {email}
         </h2>
-        <p
-          data-testid="total-field"
-        >
-          Despesa Total:
-          {' '}
-          { 0 }
-        </p>
+        <div>
+          <p>Despesa Total:</p>
+          <p
+            data-testid="total-field"
+          >
+            { this.sumTotal() }
+          </p>
+        </div>
         <span data-testid="header-currency-field">Moeda: BRL</span>
       </header>
     );
@@ -37,10 +53,12 @@ class Reader extends Component {
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
+  expenses: state.wallet.expenses,
 });
 
 Reader.propTypes = {
   email: propTypes.string.isRequired,
+  expenses: propTypes.arrayOf(propTypes.object).isRequired,
   dispatch: propTypes.func.isRequired,
 };
 

@@ -1,5 +1,5 @@
 import { GET_EMAIL } from '../reducers/user';
-import { GET_CURRENCY_ABBREVIATIONS } from '../reducers/wallet';
+import { GET_CURRENCY_ABBREVIATIONS, GET_EXPENSES } from '../reducers/wallet';
 
 export const getUser = (user) => ({
   type: GET_EMAIL,
@@ -11,6 +11,11 @@ export const getCurrencyAbbreviations = (data) => ({
   data,
 });
 
+export const addExpense = (data) => ({
+  type: GET_EXPENSES,
+  data,
+});
+
 export function fetchCurrencyAbbreviations() {
   return async (dispatch) => {
     try {
@@ -19,6 +24,19 @@ export function fetchCurrencyAbbreviations() {
       const filterCurrencyAbbreviations = Object.keys(data)
         .filter((abbreviation) => abbreviation !== 'USDT');
       dispatch(getCurrencyAbbreviations(filterCurrencyAbbreviations));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+}
+
+export function fetchExchangeRate(object) {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('https://economia.awesomeapi.com.br/json/all');
+      const data = await response.json();
+      object.exchangeRates = data;
+      dispatch(addExpense(object));
     } catch (error) {
       console.error(error);
     }
