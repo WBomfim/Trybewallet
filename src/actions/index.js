@@ -1,5 +1,8 @@
 import { GET_EMAIL } from '../reducers/user';
-import { GET_CURRENCY_ABBREVIATIONS, GET_EXPENSES } from '../reducers/wallet';
+import {
+  GET_CURRENCY_ABBREVIATIONS,
+  GET_EXPENSES,
+  DELETE_EXPENSE } from '../reducers/wallet';
 
 export const getUser = (user) => ({
   type: GET_EMAIL,
@@ -14,6 +17,11 @@ export const getCurrencyAbbreviations = (data) => ({
 export const addExpense = (data) => ({
   type: GET_EXPENSES,
   data,
+});
+
+export const deleteExpense = (id) => ({
+  type: DELETE_EXPENSE,
+  id,
 });
 
 export function fetchCurrencyAbbreviations() {

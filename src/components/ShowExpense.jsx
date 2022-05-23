@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { deleteExpense } from '../actions';
 import './ShowExpense.css';
 
 class ShowExpense extends Component {
   render() {
-    const { expenses } = this.props;
+    const { expenses, dispatch } = this.props;
     return (
       <table>
         <thead>
@@ -24,6 +25,7 @@ class ShowExpense extends Component {
         <tbody>
           {expenses.map((expense) => {
             const {
+              id,
               value,
               currency,
               method,
@@ -52,6 +54,7 @@ class ShowExpense extends Component {
                   </button>
                   <button
                     type="button"
+                    onClick={ () => dispatch(deleteExpense(id)) }
                     data-testid="delete-btn"
                   >
                     Excluir
@@ -72,6 +75,7 @@ const mapStateToProps = (state) => ({
 
 ShowExpense.propTypes = {
   expenses: propTypes.arrayOf(propTypes.object).isRequired,
+  dispatch: propTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(ShowExpense);

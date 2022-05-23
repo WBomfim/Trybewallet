@@ -10,9 +10,9 @@ class InsertExpense extends Component {
     this.state = {
       indexId: 0,
       value: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
       description: '',
     };
   }
