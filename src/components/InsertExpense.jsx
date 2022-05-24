@@ -17,13 +17,6 @@ class InsertExpense extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    const { isEditing } = this.props;
-    if (isEditing && prevProps.isEditing !== isEditing) {
-      this.loadingEditiExpense();
-    }
-  }
-
   hendleChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value,
@@ -50,14 +43,16 @@ class InsertExpense extends Component {
   };
 
   loadingEditiExpense = () => {
-    const { expenseEditing } = this.props;
-    this.setState({
-      value: expenseEditing.value,
-      currency: expenseEditing.currency,
-      method: expenseEditing.method,
-      tag: expenseEditing.tag,
-      description: expenseEditing.description,
-    });
+    const { expenseEditing, isEditing } = this.props;
+    if (isEditing) {
+      this.setState({
+        value: expenseEditing.value,
+        currency: expenseEditing.currency,
+        method: expenseEditing.method,
+        tag: expenseEditing.tag,
+        description: expenseEditing.description,
+      });
+    }
   };
 
   editingExpense = () => {
