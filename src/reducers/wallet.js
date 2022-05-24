@@ -24,17 +24,20 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: [...state.expenses, action.data],
     };
+
   case DELETE_EXPENSE:
     return {
       ...state,
       expenses: state.expenses.filter((expense) => expense.id !== action.id),
     };
+
   case EDITING_EXPENSE:
     return {
       ...state,
       isEditing: true,
       expenseEditing: state.expenses.find((expense) => expense.id === action.id),
     };
+
   case UPDATE_EXPENSE:
     return {
       ...state,
@@ -49,6 +52,7 @@ const wallet = (state = INITIAL_STATE, action) => {
       isEditing: false,
       expenseEditing: {},
     };
+
   default: return state;
   }
 };
